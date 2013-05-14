@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="OhHa:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/OhHa_jar</output-path>
+    <root id="archive" name="OhHa.jar">
+      <element id="module-output" name="OhHa" />
+    </root>
+  </artifact>
+</component>
