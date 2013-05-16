@@ -1,28 +1,11 @@
 Aiheena jonkinlainen tasohyppelypeli.
 Pelimaailmana on (lähes)itsesimilaari pseudorandomi fraktaali.
+Pelaajan hahmoa liikutetaan näppäimistöllä (ohjaintuki?)
+Kuoppaan hypätessä karttaa skaalataan isommaksi ja sille lasketaan lisää sisältöä.
+Vihollisten vaikeusaste voisi skaalautua syvyyden mukaan.
+Jonkinlainen kartta joka pitää lukua missäpäin maailmaa liikutaan saattaa olla hyödyllinen.
+Pelin päämäärä vielä auki. Pistegrindaus / survival?
 
-
-base : pohjapakkaus [
-	-Main : entrypoint, alustaa Game:n
-
-	+Game : logiikankoontiluokka
-	-World : pelimaailman manageri (Kertoo missä pelimaailma on kiinteä ja mihin sitä tulee piirtää)
-		-World : Tietorakenne fraktaalimaailmalle, alustetaan kokonaisluvulla
-	-EntMan : Hallitsee peliolioita (Pitää listaa, lisää/poistaa pyydettäessä)
-	-StateMan : Hallitsee ja päivittää pelitilaa
-	-DrawMan : Piirturi
-
-	ents : pelioliopakkaus [
-		+Collides : toisiin Collides (mahdollisesti mailmaan) törmäävä
-		-Player : pelaajan hahmo
-		+Enemy : viholliset
-			...
-		... : mm. ammukset?
-		+Effect : Efektit jotka vain piirrettään muun päälle
-			...
-	]
-]
-Util : tarvikekirjastoluokka/pakkaus [
-	-Collide : Törmäyksentunnistusrutiinit
-	-Vector : 2D vektoriluokka ja oleelliset operaatiot
-]
+Jos aika antaa myöten:
+-Tappelupelityylinen systeemi jossa pelaajan hyökkäykset liikuttavat vihollisia ja hyökkäyksiä voi ketjuttaa
+-Jotakin kiinnostavampaa pelimaailman eri haaroihin. Väriteemat, vihollistyypit, etc.
