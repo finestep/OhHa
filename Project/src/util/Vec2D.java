@@ -23,6 +23,15 @@ public class Vec2D {
 	}
 
 	/**
+	 * Modifies the original vector
+	 * @param b Another vector to sum
+	 * @return
+	 */
+	public void _add(Vec2D b) {
+		x+=b.x;
+		y+=b.y;
+	}
+	/**
 	 * Vector scalar multiplication
 	 * @param a Float to multiply the vector with
 	 * @return Reference to new vector a*this
@@ -31,6 +40,15 @@ public class Vec2D {
 		return new Vec2D(x*a,y*a);
 	}
 
+	/**
+	 * Modifies the original vector
+	 * @param a Scalar to multiply with
+	 * @return
+	 */
+	public void _mul(double a) {
+		x*=a;
+		y*=a;
+	}
 	/**
 	 * Shorthand for -1*this
 	 * @return Reference to new vector
