@@ -1,5 +1,7 @@
 package util;
 
+import base.ents.Ent;
+
 /**
 AABB Collision routines
  */
@@ -25,4 +27,5 @@ public class Collision {
 
 	}
 	//public static Vec2D CollAABBCircle(Vec2D p1,Vec2D p2,Vec2D s1,float r)
+
 }

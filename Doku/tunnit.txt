@@ -1,3 +1,5 @@
 14.5. Useita tunteja gitin ja intellij:n kanssa painiessa
 15.5. Tunti vektoreihin ja AABB:hen
 16.5. Tunti puoli testien hiomiseen ja luokkakaavioon
+19.5. Tunti ikkunaan ja muuhun
+20.5. Neljä tuntia ydinlogiikkaan
