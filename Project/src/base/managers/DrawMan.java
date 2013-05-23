@@ -18,6 +18,7 @@ public class DrawMan {
 	public static final Dimension RES = new Dimension(640,480);
 	public void init() {
 		f=new Frame(Game.TITLE);
+		f.setResizable(false);
 		f.setSize(RES);
 		f.addWindowListener(new WindowMon());
 		Canvas c = new Canvas();

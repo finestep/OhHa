@@ -3,3 +3,4 @@
 16.5. Tunti puoli testien hiomiseen ja luokkakaavioon
 19.5. Tunti ikkunaan ja muuhun
 20.5. Neljä tuntia ydinlogiikkaan
+23.5. Pari tuntia erinnäiseen hiomiseen

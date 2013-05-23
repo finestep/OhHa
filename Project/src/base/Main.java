@@ -12,5 +12,6 @@ public class Main {
 		System.out.println("Initializing");
 		Game GAME = new Game();
 		GAME.run();
+		System.out.println("The end");
 	}
 }

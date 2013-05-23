@@ -12,8 +12,9 @@ import java.util.Iterator;
  * Updates gamestate
  */
 public class EntMan {
-	//private static Ent PLAYER;
-	//public Ent player() { return PLAYER; }
+	private static Ent PLAYER;
+	public Ent player() { return PLAYER; }
+
 	public void update(double dt) {
 		Iterator<Ent> iter = Game.STATEMAN.getEntIter();
 
@@ -25,9 +26,9 @@ public class EntMan {
 				if((coll&Ent.COLL_WRLD)!=0) {  //check collision with world?
 					collideWorld(e);
 				}
-
 				entColls(e);  //check for collisions with the rest of the ents
 			}
+			Game.WORLD().environmentHook(e,dt);
 			if(e.update(dt)) iter.remove();
 		}
 	}
@@ -46,7 +47,7 @@ public class EntMan {
 
 		while(iter.hasNext()) {
 			Ent b = iter.next();
-			if(b==e || ( b.colltype()&e.colltype() )==0 ) continue;
+			if(b==e || ( b.colltype()&e.collclass() )==0 ) continue;
 			Vec2D d = Collision.CollAABB(e.pos,e.size(),b.pos,b.size());
 			if(Double.compare(d.length(),0)!=0) {
 				CollEvent ev1=new CollEvent(b.id,b,e.pos,b.pos,e.vel,b.vel,d);

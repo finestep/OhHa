@@ -11,6 +11,6 @@ public class WindowMon extends WindowAdapter {
 		w.setVisible(false);
 		w.dispose();
 		//quit other mans / enter quit routine
-		System.exit(0);
+		Game.quit();
 	}
 }

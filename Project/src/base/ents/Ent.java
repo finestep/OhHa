@@ -23,7 +23,9 @@ public abstract class Ent implements IRenderable {
 	private static int _COUNT=0;
 	public final int id;
 	protected int colltype;
-	public int colltype() { return colltype; }
+	public int colltype() { return colltype; } //what entities does the entity hit
+	protected int collclass;
+	public int collclass() { return collclass; } //what entities does the entity get hit by
 	protected Vec2D size;
 	protected double mass;
 	public double mass() {return mass; }
@@ -31,15 +33,19 @@ public abstract class Ent implements IRenderable {
 	public Vec2D size() { return size; }
 	public Vec2D pos,vel;
 
-	Ent(int id) {
+	protected Ent() {
 		this.id=_COUNT;
 		_COUNT++;
 	}
 
 	public boolean update(double dt) {
+		handleCollisions(); //subclasses should empty collisions queue here
 		pos._add(vel.mul(dt));
 		return false; //return true if entity should die
+
 	}
+
+	public abstract void handleCollisions();
 
 	public void collided(CollEvent ev) {
 		collisions.add(ev);

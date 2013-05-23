@@ -31,4 +31,8 @@ public class StateMan {
 		}
 		return false;
 	}
+
+	public void delAll() {
+		ents.clear();
+	}
 }
