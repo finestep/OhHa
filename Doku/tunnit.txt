@@ -4,3 +4,5 @@
 19.5. Tunti ikkunaan ja muuhun
 20.5. Neljä tuntia ydinlogiikkaan
 23.5. Pari tuntia erinnäiseen hiomiseen
+27.5. Tunti logiikan korjaamiseen
+28.5. Muutama tunti syötteeseen ja muuhun

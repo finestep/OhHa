@@ -22,8 +22,8 @@ public class Collision {
 		if(dx>0) return new Vec2D(); //aabb centers are horizontally further away than their widths' sum
 		double dy = Math.abs(p1.y-p2.y)-s1.y-s2.y;
 		if(dy>0) return new Vec2D(); //aabb centers are vertically further away than their heights' sum
-		if(Math.abs(dy)<Math.abs(dx)) return new Vec2D(0,-dy);
-		else return new Vec2D(-dx,0);
+		if(Math.abs(dy)<Math.abs(dx)) return new Vec2D(0,dy);
+		else return new Vec2D(dx,0);
 
 	}
 	//public static Vec2D CollAABBCircle(Vec2D p1,Vec2D p2,Vec2D s1,float r)

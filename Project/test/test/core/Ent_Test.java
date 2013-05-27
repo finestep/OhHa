@@ -19,8 +19,8 @@ public class Ent_Test extends Ent {
 		size=new Vec2D(10,10);
 		mass=1;
 
-		collclass=COLL_NONE;
-		colltype=COLL_WRLD;
+		collclass=COLL_PLR;
+		colltype=COLL_WRLD|COLL_PLR;
 
 		pos=p;
 		vel=v;

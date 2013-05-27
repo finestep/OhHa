@@ -13,8 +13,12 @@ import java.util.Iterator;
  */
 public class EntMan {
 	private static Ent PLAYER;
-	public Ent player() { return PLAYER; }
+	public Ent PLAYER() { return PLAYER; }
 
+	/**
+	 * Call the entities' update() and remove them if necessary
+	 * @param dt deltatime to use for the update
+	 */
 	public void update(double dt) {
 		Iterator<Ent> iter = Game.STATEMAN.getEntIter();
 
@@ -28,30 +32,30 @@ public class EntMan {
 				}
 				entColls(e);  //check for collisions with the rest of the ents
 			}
-			Game.WORLD().environmentHook(e,dt);
+			Game.WORLD().environmentHook(e,dt); //gravity et al happens here
 			if(e.update(dt)) iter.remove();
 		}
 	}
 
-	public void collideWorld(Ent e) {
+	private void collideWorld(Ent e) { //check the entity's collision against the world geometry
 		Vec2D[] worldBox=Game.WORLD().getClosestAABB(e.pos);
-		Vec2D d = Collision.CollAABB(e.pos,e.size(),worldBox[0],worldBox[1]);
-		if(Double.compare(d.length(),0)!=0) {
-			CollEvent ev=new CollEvent(Ent.ENT_WORLD,null,e.pos,null,e.vel,null,d);
+		Vec2D d = Collision.CollAABB(e.pos,worldBox[0],e.size(),worldBox[1]);
+		if(Double.compare(d.length(),0.0)>0) {
+			CollEvent ev=new CollEvent(Ent.ENT_WORLD,null,e.pos,worldBox[0],e.vel,worldBox[1],d);
 			e.collided(ev);
 		}
 
 	}
-	public void entColls(Ent e) {
+	private void entColls(Ent e) { //test ents against each other
 		Iterator<Ent> iter = Game.STATEMAN.getEntIter();
 
 		while(iter.hasNext()) {
 			Ent b = iter.next();
-			if(b==e || ( b.colltype()&e.collclass() )==0 ) continue;
-			Vec2D d = Collision.CollAABB(e.pos,e.size(),b.pos,b.size());
-			if(Double.compare(d.length(),0)!=0) {
-				CollEvent ev1=new CollEvent(b.id,b,e.pos,b.pos,e.vel,b.vel,d);
-				CollEvent ev2=new CollEvent(e.id,e,b.pos,e.pos,b.vel,e.vel,d);
+			if(b.id==e.id || ( b.colltype()&e.collclass() )==0 ) continue;
+			Vec2D d = Collision.CollAABB(e.pos,b.pos,e.size(),b.size());
+			if(Double.compare(d.length(),0.0)>0) {
+				CollEvent ev1=new CollEvent(b.id,b,e.pos,b.pos,e.vel,b.vel,d.mul(.5));
+				CollEvent ev2=new CollEvent(e.id,e,b.pos,e.pos,b.vel,e.vel,d.mul(-.5));
 				e.collided(ev1);
 				b.collided(ev2);
 			}

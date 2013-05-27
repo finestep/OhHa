@@ -23,7 +23,7 @@ public class CoreTest {
 	@Before
 	public void setUp() {
 		game=new Game();
-		ent = new Ent_Test(new Vec2D(0,50),new Vec2D(0,15));
+		ent = new Ent_Test(new Vec2D(0,-50),new Vec2D(0,-15));
 		Game.STATEMAN.add_ent(ent);
 	}
 
@@ -31,28 +31,29 @@ public class CoreTest {
 	public void fall() throws Exception {
 		ActionListener checker = new ActionListener() {
 			public void actionPerformed(ActionEvent evt) {
-				success=Double.compare(1,ent.pos.length())==0;
+				success=Double.compare(11,ent.pos.length())>0;
 				Game.quit();
 			}
 		};
 		new Timer(7000,checker).start();
 		game.run();
-		assertTrue(success);
+		assertTrue("Pos.length() was "+ent.pos.length(),success);
 	}
 
 	@Test
 	public void stack() throws Exception {
-		Ent_Test ent2 = new Ent_Test(new Vec2D(0,10),new Vec2D());
+		Ent_Test ent2 = new Ent_Test(new Vec2D(0,-10),new Vec2D());
 		Game.STATEMAN.add_ent(ent2);
 		ActionListener checker = new ActionListener() {
 			public void actionPerformed(ActionEvent evt) {
-				success=Double.compare(3,ent.pos.length())==0;
+				success=Double.compare(31,ent.pos.length())>0;
+				success=success&&Double.compare(29,ent.pos.length())<0;
 				Game.quit();
 			}
 		};
 		new Timer(7000,checker).start();
 		game.run();
-		assertTrue(success);
+		assertTrue("Pos.length() was "+ent.pos.length(),success);
 	}
 
 

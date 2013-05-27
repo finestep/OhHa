@@ -33,11 +33,19 @@ public abstract class Ent implements IRenderable {
 	public Vec2D size() { return size; }
 	public Vec2D pos,vel;
 
+	/**
+	 * Entities are assigned an unique (ordinal) id upon creation
+	 */
 	protected Ent() {
 		this.id=_COUNT;
 		_COUNT++;
 	}
 
+	/**
+	 * Updates, in the very least, the entity's position and handles the collisions it has accumulated
+	 * @param dt deltatime of the sim
+	 * @return should the entity be removed
+	 */
 	public boolean update(double dt) {
 		handleCollisions(); //subclasses should empty collisions queue here
 		pos._add(vel.mul(dt));
@@ -45,6 +53,9 @@ public abstract class Ent implements IRenderable {
 
 	}
 
+	/**
+	 * Entities should clear the queue and respond to the collisions as they best see fit
+	 */
 	public abstract void handleCollisions();
 
 	public void collided(CollEvent ev) {

@@ -20,6 +20,11 @@ public class StateMan {
 		return ents.iterator();
 	}
 
+	/**
+	 * Removes an ent with a particular id
+	 * @param delid  ent to remove
+	 * @return boolean true if such ent was found
+	 */
 	public boolean del_ent(int delid) {
 		Iterator<Ent> i = ents.iterator();
 		while(i.hasNext()) {

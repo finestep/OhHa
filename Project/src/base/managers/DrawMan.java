@@ -13,7 +13,7 @@ import java.util.Iterator;
  */
 public class DrawMan {
 	Graphics2D gfx;
-	Vec2D CAM=new Vec2D(320,-240);
+	Vec2D CAM=new Vec2D(320,240);
 	Frame f;
 	public static final Dimension RES = new Dimension(640,480);
 	public void init() {
@@ -21,6 +21,7 @@ public class DrawMan {
 		f.setResizable(false);
 		f.setSize(RES);
 		f.addWindowListener(new WindowMon());
+		f.addKeyListener(Game.INPUTMAN);
 		Canvas c = new Canvas();
 		c.setSize(RES);
 		c.setVisible(true);
@@ -31,6 +32,8 @@ public class DrawMan {
 	}
 
 	public void draw_game() {
+		gfx.setColor(Color.WHITE);
+		gfx.fillRect(0,0,RES.width,RES.height);
 		Game.WORLD().draw(gfx,CAM,RES);
 		Iterator<Ent> iter = Game.STATEMAN.getEntIter();
 		while(iter.hasNext()) iter.next().draw(gfx,CAM,RES);

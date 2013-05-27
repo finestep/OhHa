@@ -10,12 +10,12 @@ import java.awt.*;
  */
 public class World implements IWorldTopology {
 	static final Color col = new Color(0,0,0);
-	static final  Vec2D globalAcc = new Vec2D(0,-10);
+	static final  Vec2D globalAcc = new Vec2D(0,15);
 
 	@Override
 	public Vec2D[] getClosestAABB(Vec2D pos) {
 		Vec2D[] ret={null,null};
-		ret[0]=new Vec2D(pos.x,64);
+		ret[0]=new Vec2D(pos.x,32);
 		ret[1]=new Vec2D(320,32);
 		return ret;
 	}
@@ -28,7 +28,7 @@ public class World implements IWorldTopology {
 	@Override
 	public void draw(Graphics2D g,Vec2D campos,Dimension d) {
 		g.setColor(col);
-		int y = -(int)Math.round(campos.y);
+		int y = (int)Math.round(campos.y);
 		g.drawLine(0,y,d.width,y);
 	}
 }
