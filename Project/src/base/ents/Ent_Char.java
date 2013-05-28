@@ -13,9 +13,10 @@ import java.util.Iterator;
 public class Ent_Char extends Ent {
 	public Color col;
 	private ICharBrain brain;
-	private double maxVel=300,runPower,jumpPower;
+	private double maxVel=400,runPower,jumpPower;
 	boolean grounded=false;
 	public final CharTypeEnum type;
+	double drag = Math.pow(0.3,1/Game.TICKS_PER_SECOND); //todo move to EnvironmentHook
 	public double health;
 
 	public Ent_Char(CharTypeEnum t,ICharBrain b,
@@ -33,12 +34,12 @@ public class Ent_Char extends Ent {
 	@Override
 	public boolean update(double dt) {
 		super.update(dt);
-		if(grounded) vel.x*=Math.pow(0.5,dt);
+		if(grounded) vel.x*=drag;
 
 		if(vel.y<0) grounded=false;
 
 		vel.x+=Math.min(1,Math.max(-1,brain.movement()))*runPower*dt*(grounded?1:0);
-		vel.y-=Math.abs(Math.min(1,Math.max(0,brain.jump()))*jumpPower*100*dt)*(grounded?1:0); //how much should the character jump? only jump upwards, when on the ground
+		vel.y-=Math.abs(Math.min(1,Math.max(0,brain.jump()))*jumpPower)*(grounded?1:0); //how much should the character jump? only jump upwards, when on the ground
 
 		try {
 		if(vel.length()>maxVel) vel=vel.unit().mul(maxVel);
@@ -55,9 +56,10 @@ public class Ent_Char extends Ent {
 			pos._add(ev.d);
 			if(ev.e==null) {
 				if(Math.abs(ev.d.x)<0.001) {
+					vel.y=0;
 					if(!grounded) {
 						vel.x*=.5;
-						vel.y=0;
+						if(Math.abs(vel.y)<0.1) vel.y=0;
 						grounded=true;
 						//System.out.println("Grounded");
 					}

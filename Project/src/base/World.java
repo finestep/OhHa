@@ -10,7 +10,7 @@ import java.awt.*;
  */
 public class World implements IWorldTopology {
 	static final Color col = new Color(0,0,0);
-	static final  Vec2D globalAcc = new Vec2D(0,30);
+	static final  Vec2D globalAcc = new Vec2D(0,80);
 
 	@Override
 	public Vec2D[] getClosestAABB(Vec2D pos) {

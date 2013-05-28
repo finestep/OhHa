@@ -56,6 +56,7 @@ public class Game {
 				//todo add rules class that determines if game should end
 				accum-=dt*1000;
 			}
+			//todo add interpolation?
 			DRAWMAN.draw_game();
 			endframe=System.currentTimeMillis();
 			Thread.sleep(Math.max((long)ft*1000-endframe,5)); //constant fps
