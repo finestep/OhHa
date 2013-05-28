@@ -14,7 +14,7 @@ import java.util.Iterator;
 public class DrawMan {
 	Graphics2D gfx;
 	Vec2D CAM=new Vec2D(320,240);
-	Frame f;
+	private Frame f;
 	public static final Dimension RES = new Dimension(640,480);
 	public void init() {
 		f=new Frame(Game.TITLE);
@@ -25,17 +25,30 @@ public class DrawMan {
 		Canvas c = new Canvas();
 		c.setSize(RES);
 		c.setVisible(true);
+		c.addKeyListener(Game.INPUTMAN);
 		f.add(c);
 		f.setVisible(true);
 
 		gfx=(Graphics2D)c.getGraphics();
 	}
-
+	//todo implement double buffering
 	public void draw_game() {
-		gfx.setColor(Color.WHITE);
+		gfx.setColor(new Color(255,255,255,200));
 		gfx.fillRect(0,0,RES.width,RES.height);
 		Game.WORLD().draw(gfx,CAM,RES);
 		Iterator<Ent> iter = Game.STATEMAN.getEntIter();
 		while(iter.hasNext()) iter.next().draw(gfx,CAM,RES);
+	}
+
+	/**
+	 * Requests focus back to frame
+	 */
+	public void focus() {
+		f.requestFocus();
+	}
+
+	public void exit() {
+		f.setVisible(false);
+		f.dispose();
 	}
 }

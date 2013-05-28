@@ -1,6 +1,6 @@
 package base.managers;
 
-import base.EControl;
+import base.ControlEnum;
 import base.Game;
 
 import java.awt.event.KeyAdapter;
@@ -11,32 +11,37 @@ import java.util.HashMap;
  * Holds information about controls
  */
 public class InputMan extends KeyAdapter {
-	private HashMap<EControl,Boolean> ctrls = new HashMap();
+	private HashMap<ControlEnum,Boolean> ctrls = new HashMap();
 
+	/**
+	 * initializes the manager
+	 */
 	public void init() {
-		for(EControl i : EControl.values() ) {
+		for(ControlEnum i : ControlEnum.values() ) {
 			ctrls.put(i,false);
 		}
 	}
 
 	@Override
 	public void keyPressed(KeyEvent ev) {
-		EControl c= Game.CONFIGMAN.keyToCtrl(ev.getKeyCode()); //what is it mapped to
-		if(c!=EControl.CTRL_NONE) ctrls.put(c,true); //if it's an actual control we care about, update it
+		if(Game.CONFIGMAN.DEBUG_INPUT) System.out.println("pressed "+ev.getKeyCode());
+		if(ev.getKeyCode()==KeyEvent.VK_ESCAPE) Game.quit();
+		ControlEnum c= Game.CONFIGMAN.keyToCtrl(ev.getKeyCode()); //what is it mapped to
+		if(c!= ControlEnum.CTRL_NONE) ctrls.put(c,true); //if it's an actual control we care about, update it
 	}
 
 	@Override
 	public void keyReleased(KeyEvent ev) {
-		EControl c=Game.CONFIGMAN.keyToCtrl(ev.getKeyCode());
-		if(c!=EControl.CTRL_NONE) ctrls.put(c,false); //should always happen but eh
+		ControlEnum c=Game.CONFIGMAN.keyToCtrl(ev.getKeyCode());
+		if(c!= ControlEnum.CTRL_NONE) ctrls.put(c,false); //should always happen but eh
 	}
 
 	/**
-	 * Returns if a control is pressed
+	 * Returns true if a control is active
 	 * @param c control to check
 	 * @return boolean true if pressed
 	 */
-	public boolean get(EControl c) {
+	public boolean get(ControlEnum c) {
 		return ctrls.get(c);
 	}
 

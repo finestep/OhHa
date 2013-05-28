@@ -1,12 +1,15 @@
 package test.core;
 
+import base.ControlEnum;
 import base.Game;
 import util.Vec2D;
+import java.awt.event.KeyEvent;
 
 import org.junit.Test;
 import org.junit.Before;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -22,7 +25,7 @@ public class CoreTest {
 	private boolean success=false;
 	@Before
 	public void setUp() {
-		game=new Game();
+		game=new Game(false);
 		ent = new Ent_Test(new Vec2D(0,-50),new Vec2D(0,-15));
 		Game.STATEMAN.add_ent(ent);
 	}
@@ -56,5 +59,17 @@ public class CoreTest {
 		assertTrue("Pos.length() was "+ent.pos.length(),success);
 	}
 
+	@Test
+	public void input() throws Exception {
+		Robot rob = new Robot();
+		Game.DRAWMAN.focus();
+		rob.delay(500);
+		rob.keyPress(KeyEvent.VK_UP);
+		rob.delay(500);
+		assertTrue("After pressing Up arrow, CTRL_UP was " + Game.INPUTMAN.get(ControlEnum.CTRL_UP), Game.INPUTMAN.get(ControlEnum.CTRL_UP));
+		rob.keyRelease(KeyEvent.VK_UP);
+		rob.delay(500);
+		assertTrue("After releasing Up arrow, CTRL_UP was "+Game.INPUTMAN.get(ControlEnum.CTRL_UP),!Game.INPUTMAN.get(ControlEnum.CTRL_UP));
+	}
 
 }

@@ -1,10 +1,13 @@
 package base;
 
+import base.ents.CharFactory;
+import base.ents.Ent;
 import base.managers.DrawMan;
 import base.managers.EntMan;
 import base.managers.StateMan;
 import base.managers.InputMan;
 import base.managers.ConfigMan;
+import util.Vec2D;
 
 /**
  * High-level game logic routine, container for global manager references
@@ -13,8 +16,9 @@ public class Game {
 
 	public static final EntMan ENTMAN=new EntMan();
 	public static final StateMan STATEMAN=new StateMan();
-	public static final DrawMan DRAWMAN=new DrawMan();
 	public static final InputMan INPUTMAN=new InputMan();
+	public static final DrawMan DRAWMAN=new DrawMan();
+
 	public static final ConfigMan CONFIGMAN=new ConfigMan();
 	private static IWorldTopology WORLD;
 	public static IWorldTopology WORLD() { return WORLD; }
@@ -24,11 +28,15 @@ public class Game {
 	private static boolean exit=false;
 	private long start;
 
-	public Game() {
+	public Game(boolean plr) {
 		CONFIGMAN.init();
 		WORLD = new World();
 		INPUTMAN.init();
 		DRAWMAN.init();
+		if(!plr) return;
+		Ent player = CharFactory.make_player(new Vec2D(0,-50));
+		STATEMAN.add_ent(player);
+		ENTMAN.setPlayer(player);
 
 	}
 	public void run() throws Exception {
@@ -57,6 +65,7 @@ public class Game {
 	public static void quit() { //todo find out a proper way to do this
 		System.out.println("Exitting");
 		STATEMAN.delAll();
+		DRAWMAN.exit();
 		exit=true;
 	}
 

@@ -14,6 +14,7 @@ public class StateMan {
 
 	public void add_ent(Ent e) {
 		ents.add(e);
+		System.out.println("New entity "+e);
 	}
 
 	public Iterator<Ent> getEntIter() {
@@ -31,6 +32,7 @@ public class StateMan {
 			Ent e = i.next();
 			if(e.id==delid) {
 				ents.remove(e);
+				System.out.println("Removed "+e);
 				return true;
 			}
 		}

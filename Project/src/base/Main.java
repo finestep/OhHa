@@ -10,7 +10,7 @@ import base.managers.DrawMan;
 public class Main {
 	public static void main(String[] arg) throws Exception  {
 		System.out.println("Initializing");
-		Game GAME = new Game();
+		Game GAME = new Game(true);
 		GAME.run();
 		System.out.println("The end");
 	}

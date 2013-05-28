@@ -6,3 +6,4 @@
 23.5. Pari tuntia erinnäiseen hiomiseen
 27.5. Tunti logiikan korjaamiseen
 28.5. Muutama tunti syötteeseen ja muuhun
+29.5. Muutama tunti hahmoluokkaan

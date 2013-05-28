@@ -41,6 +41,14 @@ public abstract class Ent implements IRenderable {
 		_COUNT++;
 	}
 
+	protected Ent(Vec2D s,double m,int cc,int ct) {
+		this();
+		size=s;
+		mass=m;
+		collclass=cc;
+		colltype=ct;
+	}
+
 	/**
 	 * Updates, in the very least, the entity's position and handles the collisions it has accumulated
 	 * @param dt deltatime of the sim

@@ -9,11 +9,23 @@ import util.Vec2D;
 import java.util.Iterator;
 
 /**
- * Updates gamestate
+ * Updates entities
  */
 public class EntMan {
-	private static Ent PLAYER;
+	private static Ent PLAYER=null;
 	public Ent PLAYER() { return PLAYER; }
+
+	/**
+	 * Set the player pointer
+	 * @param e entity to set as the player
+	 */
+	public void setPlayer(Ent e) {
+		PLAYER=e;
+		System.out.println("New player "+e);
+	}
+
+	public EntMan() {
+	}
 
 	/**
 	 * Call the entities' update() and remove them if necessary
@@ -24,7 +36,7 @@ public class EntMan {
 
 		while(iter.hasNext()) {
 			Ent e = iter.next();
-
+			Game.WORLD().environmentHook(e,dt); //gravity et al happens here
 			int coll = e.colltype();
 			if(coll!=Ent.COLL_NONE) {   //collides with anything in the first place?
 				if((coll&Ent.COLL_WRLD)!=0) {  //check collision with world?
@@ -32,7 +44,7 @@ public class EntMan {
 				}
 				entColls(e);  //check for collisions with the rest of the ents
 			}
-			Game.WORLD().environmentHook(e,dt); //gravity et al happens here
+
 			if(e.update(dt)) iter.remove();
 		}
 	}
@@ -41,7 +53,7 @@ public class EntMan {
 		Vec2D[] worldBox=Game.WORLD().getClosestAABB(e.pos);
 		Vec2D d = Collision.CollAABB(e.pos,worldBox[0],e.size(),worldBox[1]);
 		if(Double.compare(d.length(),0.0)>0) {
-			CollEvent ev=new CollEvent(Ent.ENT_WORLD,null,e.pos,worldBox[0],e.vel,worldBox[1],d);
+			CollEvent ev=new CollEvent(Ent.ENT_WORLD,null,e.pos,worldBox[0],e.vel,new Vec2D(),d);
 			e.collided(ev);
 		}
 
