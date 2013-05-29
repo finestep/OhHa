@@ -11,6 +11,7 @@ import java.util.HashMap;
  **/
 public class ConfigMan {
 	public static boolean DEBUG_INPUT = false;
+	public static boolean BLUR_ENABLE = true;
 	private HashMap<Integer, ControlEnum> keys = new HashMap();
 
 	//default keys

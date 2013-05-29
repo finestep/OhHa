@@ -17,6 +17,8 @@ public class DrawMan {
 	private Frame f;
 	private Font fnt;
 
+	private Color alphawhite=new Color(255,255,255,180);
+
 	public static final Dimension RES = new Dimension(640,480);
 	public void init() {
 		f=new Frame(Game.TITLE);
@@ -37,7 +39,10 @@ public class DrawMan {
 	}
 	//todo implement double buffering
 	public void draw_game() {
-		gfx.setColor(new Color(255,255,255,200));
+		Color col;
+		if(Game.CONFIGMAN.BLUR_ENABLE) col = alphawhite;
+		else col = Color.white;
+		gfx.setColor(col);
 		gfx.fillRect(0,0,RES.width,RES.height);
 		Game.WORLD().draw(gfx,CAM,RES);
 		Iterator<Ent> iter = Game.STATEMAN.getEntIter();

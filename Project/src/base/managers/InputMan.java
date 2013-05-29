@@ -25,6 +25,7 @@ public class InputMan extends KeyAdapter {
 	@Override
 	public void keyPressed(KeyEvent ev) {
 		if(Game.CONFIGMAN.DEBUG_INPUT) System.out.println("pressed "+ev.getKeyCode());
+		if(ev.getKeyCode()==KeyEvent.VK_B) Game.CONFIGMAN.BLUR_ENABLE = !Game.CONFIGMAN.BLUR_ENABLE;
 		if(ev.getKeyCode()==KeyEvent.VK_ESCAPE) Game.quit();
 		ControlEnum c= Game.CONFIGMAN.keyToCtrl(ev.getKeyCode()); //what is it mapped to
 		if(c!= ControlEnum.CTRL_NONE) ctrls.put(c,true); //if it's an actual control we care about, update it
