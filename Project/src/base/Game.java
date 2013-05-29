@@ -26,7 +26,9 @@ public class Game {
 	public static final double FRAMES_PER_SECOND=60;
 	public static final String TITLE = "TBA";
 	private static boolean exit=false;
+
 	private long start;
+	private String[] txt = {null,null,null};
 
 	public Game(boolean plr) {
 		CONFIGMAN.init();
@@ -44,22 +46,34 @@ public class Game {
 		double dt = 1/TICKS_PER_SECOND;
 		double ft = 1/FRAMES_PER_SECOND;
 		start=System.currentTimeMillis();
-		long startframe= (long) (start+ft);
-		long endframe=start;
+		long startframe;
+		long endframe=(long) (start-ft*1000);
 		long sleeptime;
+		int n=0;
+		double prevn=0;
 		while ( !exit ) { //perhaps instead have run() simulate a single tick?
 			startframe=System.currentTimeMillis();
 			sleeptime=startframe-endframe;
 			accum+=sleeptime;
+			n=0;
 			while(accum>dt*1000) { //renderer gave us some time, eat it
 				ENTMAN.update(dt);
 				//todo add rules class that determines if game should end
-				accum-=dt*1000;
+				accum-=dt*1000; //can modify timescale here
+				n++;
 			}
 			//todo add interpolation?
+
 			DRAWMAN.draw_game();
+			txt[0]="Framerate: "+(1000./sleeptime);
+			txt[1]="Frametime: "+(sleeptime);
+			txt[2]="Tickrate: "+(float)(n*.2+prevn*.8);
+			DRAWMAN.text_hook(txt);
+			prevn=n*.2+prevn*.8;
 			endframe=System.currentTimeMillis();
-			Thread.sleep(Math.max((long)ft*1000-endframe,5)); //constant fps
+			long sleep = (long)Math.floor(ft * 1000)-(startframe-endframe); //constant fps
+			int sleep2 = (int) ((ft-Math.floor(ft*1000)/1000)*1000000);
+			Thread.sleep(sleep,sleep2);
 		}
 
 	}
