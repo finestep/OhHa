@@ -67,9 +67,9 @@ public class Game {
 			DRAWMAN.draw_game();
 			txt[0]="Framerate: "+(1000./sleeptime);
 			txt[1]="Frametime: "+(sleeptime);
-			txt[2]="Tickrate: "+(float)(n*.2+prevn*.8);
+			txt[2]="Tickrate: "+(float)(n*1000./sleeptime*.2+prevn*.8);
 			DRAWMAN.text_hook(txt);
-			prevn=n*.2+prevn*.8;
+			prevn=n*1000./sleeptime*.2+prevn*.8;
 			endframe=System.currentTimeMillis();
 			long sleep = (long)Math.floor(ft * 1000)-(startframe-endframe); //constant fps
 			int sleep2 = (int) ((ft-Math.floor(ft*1000)/1000)*1000000);
