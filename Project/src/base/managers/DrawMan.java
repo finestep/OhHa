@@ -47,6 +47,7 @@ public class DrawMan {
 		Game.WORLD().draw(gfx,CAM,RES);
 		Iterator<Ent> iter = Game.STATEMAN.getEntIter();
 		while(iter.hasNext()) iter.next().draw(gfx,CAM,RES);
+		Toolkit.getDefaultToolkit().sync();   //okay.jpg
 	}
 
 	/**
