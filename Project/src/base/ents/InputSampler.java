@@ -22,4 +22,17 @@ public class InputSampler implements ICharBrain {
 		return 0;
 	}
 
+	@Override
+	public boolean fireWeapon(Ent_Gun w) {
+		if(w.getAmmo()<1) return false;
+		if(Game.INPUTMAN.get(CTRL_A)) return true;
+		return false;
+	}
+	@Override
+	public boolean fire2Weapon(Ent_Gun w) {
+		if(w.getAmmo()<1) return false;
+		if(Game.INPUTMAN.get(CTRL_B)) return true;
+		return false;
+	}
+
 }

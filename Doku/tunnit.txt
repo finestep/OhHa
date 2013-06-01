@@ -7,3 +7,4 @@
 27.5. Tunti logiikan korjaamiseen
 28.5. Muutama tunti syötteeseen ja muuhun
 29.5. Muutama tunti hahmoluokkaan
+30.-2. Yhteensä varmaan 6h

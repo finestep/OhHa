@@ -64,7 +64,7 @@ public abstract class Ent implements IRenderable {
 	/**
 	 * Entities should clear the queue and respond to the collisions as they best see fit
 	 */
-	public abstract void handleCollisions();
+	public void handleCollisions() {};
 
 	public void collided(CollEvent ev) {
 		collisions.add(ev);

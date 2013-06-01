@@ -22,6 +22,7 @@ public class Vec2D {
 		return new Vec2D(x+b.x,y+b.y);
 	}
 
+
 	/**
 	 * Modifies the original vector
 	 * @param b Another vector to sum

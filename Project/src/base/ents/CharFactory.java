@@ -18,6 +18,8 @@ public class CharFactory {
 		Ent_Char e = new Ent_Char(CHAR_PLAYER,new InputSampler(),new Vec2D(10,20),1,COLL_WRLD,COLL_WRLD|COLL_ENM|COLL_PRJ,200,100,100);
 		e.pos=p;
 		e.col= Color.GREEN;
+		Ent_Gun gun = new Gun_Rocketlaser(e);
+		e.weapon=gun;
 		return e;
 	}
 }

@@ -10,14 +10,25 @@ import java.util.Iterator;
 /**
  * Basic actor entity
  */
-public class Ent_Char extends Ent {
+public class Ent_Char extends Ent implements IHurtable {
 	public Color col;
 	private ICharBrain brain;
 	private double maxVel=400,runPower,jumpPower;
 	boolean grounded=false;
 	public final CharTypeEnum type;
 	double drag = Math.pow(0.3,1/Game.TICKS_PER_SECOND); //todo move to EnvironmentHook
-	public double health;
+
+	public double getHealth() {
+		return health;
+	}
+
+	public void setHealth(double health) {
+		this.health = health;
+	}
+
+	private double health;
+	protected Ent_Gun weapon=null;
+	boolean side; //true if the character is facing left
 
 	public Ent_Char(CharTypeEnum t,ICharBrain b,
 					Vec2D s,double m,int ct,int cc,
@@ -29,6 +40,7 @@ public class Ent_Char extends Ent {
 		jumpPower=j;
 		health=h;
 		vel=new Vec2D();
+		side=false;
 	}
 
 	@Override
@@ -41,11 +53,22 @@ public class Ent_Char extends Ent {
 		vel.x+=Math.min(1,Math.max(-1,brain.movement()))*runPower*dt*(grounded?1:0);
 		vel.y-=Math.abs(Math.min(1,Math.max(0,brain.jump()))*jumpPower)*(grounded?1:0); //how much should the character jump? only jump upwards, when on the ground
 
+		if(brain.fireWeapon(weapon)) weapon.fire();
+		if(brain.fire2Weapon(weapon)) weapon.fire2();
+
+		side = vel.x<0; //todo ask the brain where to face
+
 		try {
 		if(vel.length()>maxVel) vel=vel.unit().mul(maxVel);
 		} catch (Exception e) {} //cannot happen when maxVel > 0 todo assert all max*'s are positive
 
-		return health<0;
+		weapon.update(dt);
+
+		if(health<0) {
+			if(weapon!=null) weapon.remove();
+			return true;
+		}
+		return false;
 	}
 
 	@Override
@@ -88,6 +111,7 @@ public class Ent_Char extends Ent {
 			g.setColor(Color.CYAN);
 			g.drawLine(x,y+h,x+w,y+h);
 		}
+		weapon.draw(g,cam,res);
 	}
 
 }

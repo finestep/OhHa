@@ -17,7 +17,7 @@ public class DrawMan {
 	private Frame f;
 	private Font fnt;
 
-	private Color alphawhite=new Color(255,255,255,180);
+	private Color alphawhite=new Color(255,255,255,140);
 
 	public static final Dimension RES = new Dimension(640,480);
 	public void init() {
@@ -47,7 +47,7 @@ public class DrawMan {
 		Game.WORLD().draw(gfx,CAM,RES);
 		Iterator<Ent> iter = Game.STATEMAN.getEntIter();
 		while(iter.hasNext()) iter.next().draw(gfx,CAM,RES);
-		Toolkit.getDefaultToolkit().sync();   //okay.jpg
+
 	}
 
 	/**
@@ -57,6 +57,8 @@ public class DrawMan {
 	 */
 	public void text_hook(String[] txt) {
 		gfx.setColor(Color.BLACK);
+		gfx.fillRect(5,10,txt[0].length()*7,txt.length*15);
+		gfx.setColor(Color.GREEN);
 		gfx.setFont(fnt);
 		for(int i=0;i<txt.length;i++) {
 			gfx.drawString(txt[i],5,20+i*14);
@@ -74,5 +76,12 @@ public class DrawMan {
 	public void exit() {
 		f.setVisible(false);
 		f.dispose();
+	}
+
+	/**
+	 * Syncs the game window graphics state, making sure things that you want are there
+	 */
+	public void sync() {
+		Toolkit.getDefaultToolkit().sync();   //okay.jpg
 	}
 }

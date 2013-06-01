@@ -15,4 +15,15 @@ public interface ICharBrain {
 	 * @return desired upwards horizontal velocity increase as percentage (0.0 to 1.0) of jumpPower subject to normalization and physics)
 	 */
 	public double jump();
+
+	/**
+	 * @param wep Weapon to fire
+	 * @return Return true if weapon should be fired
+	 */
+	public boolean fireWeapon(Ent_Gun wep);
+	/**
+	 * @param wep Weapon to fire
+	 * @return Return true if weapon secondary fire should be fired
+	 */
+	public boolean fire2Weapon(Ent_Gun wep);
 }

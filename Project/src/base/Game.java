@@ -22,7 +22,7 @@ public class Game {
 	public static final ConfigMan CONFIGMAN=new ConfigMan();
 	private static IWorldTopology WORLD;
 	public static IWorldTopology WORLD() { return WORLD; }
-	public static final double TICKS_PER_SECOND=100;
+	public static final double TICKS_PER_SECOND=120;
 	public static final double FRAMES_PER_SECOND=60;
 	public static final String TITLE = "TBA";
 	private static boolean exit=false;
@@ -69,6 +69,7 @@ public class Game {
 			txt[1]="Frametime: "+(sleeptime);
 			txt[2]="Tickrate: "+(float)(n*1000./sleeptime*.2+prevn*.8);
 			DRAWMAN.text_hook(txt);
+			DRAWMAN.sync();
 			prevn=n*1000./sleeptime*.2+prevn*.8;
 			endframe=System.currentTimeMillis();
 			long sleep = (long)Math.floor(ft * 1000)-(startframe-endframe); //constant fps
