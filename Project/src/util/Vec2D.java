@@ -42,6 +42,13 @@ public class Vec2D {
 	}
 
 	/**
+	 * shorthand for add(b.neg());
+	 */
+	public Vec2D sub(Vec2D b) {
+		return add(b.neg());
+	}
+
+	/**
 	 * Modifies the original vector
 	 * @param a Scalar to multiply with
 	 * @return
@@ -79,10 +86,7 @@ public class Vec2D {
 	 * Calculates the unit vector with the same direction as this
 	 * @return A reference to the new vector that has a length of 1
 	 */
-	public Vec2D unit() throws Exception {
-		if (length()<0.000000001) {
-			throw new ArithmeticException();
-		}
+	public Vec2D unit() {
 		return clone().mul(1/length());
 	}
 

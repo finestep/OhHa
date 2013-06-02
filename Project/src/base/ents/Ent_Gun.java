@@ -6,7 +6,7 @@ import util.Vec2D;
 /**
  * Gun for Ent_Chars to hold
  */
-abstract public class Ent_Gun extends Ent {
+abstract public class Ent_Gun extends Ent { //todo don't inherit Ent
 	protected Ent_Char parent;
 	private boolean delete=false;
 	protected Vec2D offset;

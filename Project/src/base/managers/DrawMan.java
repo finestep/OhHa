@@ -13,7 +13,8 @@ import java.util.Iterator;
  */
 public class DrawMan {
 	Graphics2D gfx;
-	Vec2D CAM=new Vec2D(320,240);
+	private static Vec2D camstart=new Vec2D(320,240);
+	private Vec2D CAM =camstart;
 	private Frame f;
 	private Font fnt;
 
@@ -42,6 +43,7 @@ public class DrawMan {
 		Color col;
 		if(Game.CONFIGMAN.BLUR_ENABLE) col = alphawhite;
 		else col = Color.white;
+		CAM=camstart.sub(Game.ENTMAN.PLAYER().pos);
 		gfx.setColor(col);
 		gfx.fillRect(0,0,RES.width,RES.height);
 		Game.WORLD().draw(gfx,CAM,RES);
@@ -76,6 +78,7 @@ public class DrawMan {
 	public void exit() {
 		f.setVisible(false);
 		f.dispose();
+		System.out.println("Destroyed window");
 	}
 
 	/**

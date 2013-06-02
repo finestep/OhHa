@@ -40,6 +40,8 @@ public class Game {
 		STATEMAN.add_ent(player);
 		ENTMAN.setPlayer(player);
 
+		STATEMAN.add_ent(CharFactory.make_dummy(new Vec2D(150,-50)));
+
 	}
 	public void run() throws Exception {
 		double accum=0;
@@ -58,6 +60,7 @@ public class Game {
 			n=0;
 			while(accum>dt*1000) { //renderer gave us some time, eat it
 				ENTMAN.update(dt);
+				STATEMAN.updateList();
 				//todo add rules class that determines if game should end
 				accum-=dt*1000; //can modify timescale here
 				n++;

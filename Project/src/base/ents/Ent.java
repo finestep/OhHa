@@ -4,6 +4,7 @@ import base.CollEvent;
 import base.IRenderable;
 import util.Vec2D;
 import java.util.ArrayDeque;
+import java.util.HashSet;
 
 /**
  * Abstract entity class
@@ -30,6 +31,7 @@ public abstract class Ent implements IRenderable {
 	protected double mass;
 	public double mass() {return mass; }
 	protected ArrayDeque<CollEvent> collisions = new ArrayDeque();
+	HashSet<Integer> ignore=new HashSet();
 	public Vec2D size() { return size; }
 	public Vec2D pos,vel;
 
@@ -67,6 +69,11 @@ public abstract class Ent implements IRenderable {
 	public void handleCollisions() {};
 
 	public void collided(CollEvent ev) {
-		collisions.add(ev);
+		if(!ignore.contains(ev.id)) collisions.add(ev);
+	}
+
+
+	public void ignore(int n) {
+		ignore.add(n);
 	}
 }

@@ -1,5 +1,6 @@
 package base.ents;
 
+import base.Game;
 import util.Vec2D;
 
 import java.awt.*;
@@ -12,6 +13,7 @@ public class Gun_Rocketlaser extends Ent_Gun {
 	private int ammo=maxAmmo;
 	private static double reload=750,rate=200;
 	private double refire=0,idle=0;
+	private static Vec2D vertboost = new Vec2D(0,-15);
 
 	public Gun_Rocketlaser(Ent_Char p) {
 		super(p);
@@ -28,7 +30,11 @@ public class Gun_Rocketlaser extends Ent_Gun {
 		refire=rate;
 		idle=0;
 		ammo--;
-		//todo launch rocket
+		Vec2D dirvec = new Vec2D((parent.side?-1:1),0);
+		Ent r = RocketFactory.create_fragrocket(pos.add(dirvec.mul(6)),dirvec.mul(100).add(vertboost),parent);
+		r.vel._add(parent.vel.mul(.5));
+		Game.STATEMAN.add_ent(r);
+		parent.vel._add(dirvec.mul(-10));
 		return true;
 	}
 
@@ -46,7 +52,7 @@ public class Gun_Rocketlaser extends Ent_Gun {
 		} else {
 			refire=0;
 			idle+=dt*1000;
-			if(ammo<maxAmmo) idle = reload;
+			if(idle>=reload) idle = reload;
 		}
 		if(ammo<maxAmmo&&idle>=reload) {
 			ammo++;

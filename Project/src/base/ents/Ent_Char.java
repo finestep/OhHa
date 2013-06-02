@@ -16,7 +16,7 @@ public class Ent_Char extends Ent implements IHurtable {
 	private double maxVel=400,runPower,jumpPower;
 	boolean grounded=false;
 	public final CharTypeEnum type;
-	double drag = Math.pow(0.3,1/Game.TICKS_PER_SECOND); //todo move to EnvironmentHook
+	double fric = Math.pow(0.2,1/Game.TICKS_PER_SECOND); //todo move to EnvironmentHook
 
 	public double getHealth() {
 		return health;
@@ -46,7 +46,7 @@ public class Ent_Char extends Ent implements IHurtable {
 	@Override
 	public boolean update(double dt) {
 		super.update(dt);
-		if(grounded) vel.x*=drag;
+		if(grounded) vel.x*= fric;
 
 		if(vel.y<0) grounded=false;
 
@@ -62,7 +62,7 @@ public class Ent_Char extends Ent implements IHurtable {
 		if(vel.length()>maxVel) vel=vel.unit().mul(maxVel);
 		} catch (Exception e) {} //cannot happen when maxVel > 0 todo assert all max*'s are positive
 
-		weapon.update(dt);
+		if(weapon!=null) weapon.update(dt);
 
 		if(health<0) {
 			if(weapon!=null) weapon.remove();
@@ -91,7 +91,10 @@ public class Ent_Char extends Ent implements IHurtable {
 					vel.y*=.5;
 				}
 			} else {
-				vel._add(ev.vel2.mul(ev.e.mass()/mass)); //todo assert that all entities' masses are positive
+
+					vel._add( ev.d.unit().mul( vel.dot( ev.d.unit() )/mass*-1.5 ));
+				if(grounded) vel.x=0;
+				//todo assert that all entities' masses are positive
 			}
 			iter.remove();
 		}
@@ -111,7 +114,7 @@ public class Ent_Char extends Ent implements IHurtable {
 			g.setColor(Color.CYAN);
 			g.drawLine(x,y+h,x+w,y+h);
 		}
-		weapon.draw(g,cam,res);
+		if(weapon!=null) weapon.draw(g,cam,res);
 	}
 
 }

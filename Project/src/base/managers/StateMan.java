@@ -11,10 +11,16 @@ import base.ents.Ent;
 public class StateMan {
 
 	private List<Ent> ents = new LinkedList<Ent>();
+	private List<Ent> toAdd = new LinkedList<Ent>();
 
 	public void add_ent(Ent e) {
-		ents.add(e);
-		System.out.println("New entity "+e);
+		toAdd.add(e);
+		System.out.println("New entity scheduled "+e);
+	}
+
+	public void updateList() {
+		ents.addAll(toAdd);
+		toAdd.clear();
 	}
 
 	public Iterator<Ent> getEntIter() {
@@ -41,5 +47,6 @@ public class StateMan {
 
 	public void delAll() {
 		ents.clear();
+		System.out.println("Cleared entities");
 	}
 }

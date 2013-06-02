@@ -11,23 +11,47 @@ import java.util.HashSet;
 /**
  * It's a rocket.
  */
-public class Ent_Rocket extends Ent {
+public class Ent_Rocket extends Ent implements IHurtable {
 	public boolean dir; //direction facing, true for left todo change to angle in radians
 	public final RocketTypeEnum type;
-	private double vdrag=1/Math.pow(0.666, Game.TICKS_PER_SECOND);
+	private double lift=4;
 	private double accel,push,damage,radius;
 	private boolean exploded=false;
-	HashSet<Integer> ignore=new HashSet();
+	private double lifetime;
 
-	public Ent_Rocket(RocketTypeEnum t) {
+	public double getHealth() {
+		return health;
+	}
+
+	public void setHealth(double health) {
+		this.health = health;
+	}
+
+	private double health;
+	static private Color col = new Color(40,40,40);
+
+
+	public Ent_Rocket(RocketTypeEnum t,Vec2D s,double acc,double push, double dam, double r,double m) {
 		type=t;
+		size=s;
+		accel=acc;
+		this.push=push;
+		damage=dam;
+		radius=r;
+		mass=m;
+		colltype=COLL_WRLD|COLL_PLR|COLL_ENM;
+		collclass=COLL_NONE;
+		lifetime=5;
+		health=7;
 	}
 
 	@Override
 	public boolean update(double dt) {
-		vel.y*=vdrag;
+		vel.y-=lift*Math.sqrt(Math.abs(vel.x))*dt;   //todo make perpendicular to vel direction
 		vel.x+=(dir?-1:1)*accel*dt;
+		lifetime-=dt;
 		super.update(dt);
+		if(lifetime<0||health<0) explode();
 		return exploded;
 	}
 
@@ -36,8 +60,10 @@ public class Ent_Rocket extends Ent {
 		Iterator<CollEvent> iter = collisions.iterator();
 		while(iter.hasNext()) {
 			CollEvent ev = iter.next();
-			if(!ignore.contains(ev.id)) explode();
-			break; //whatever we're done here
+			if(!ignore.contains(ev.id)) {
+				explode();
+				break; //whatever we're done here
+			}
 		}
 	}
 
@@ -51,11 +77,12 @@ public class Ent_Rocket extends Ent {
 			double dist = d.length();
 			if(dist>radius) continue;
 			if(e.mass()>0) {
-				e.vel._add(d.mul(Math.pow(dist,-3)*push/e.mass));
-				e.vel.y-=push*.06;
+				e.vel._add(d.mul(Math.pow(dist,-2)*push*40/e.mass));
+				e.vel.y=-Math.abs(e.vel.y)-push*.2;
 			}
 			if(e instanceof IHurtable) {
-				((IHurtable) e).setHealth(((IHurtable) e).getHealth() - dist / radius * damage);
+				double dmg = Math.max(5,dist / radius * damage );
+				((IHurtable) e).setHealth(((IHurtable) e).getHealth() - dmg);
 			}
 		}
 
@@ -63,7 +90,7 @@ public class Ent_Rocket extends Ent {
 
 	@Override
 	public void draw(Graphics2D g, Vec2D cam, Dimension res) {
-		g.setColor(Color.YELLOW);
+		g.setColor(col);
 		int x=(int)(pos.x-size.x+cam.x);
 		int y=(int)(pos.y-size.y+cam.y);
 		int w=(int)size.x*2;
@@ -71,5 +98,6 @@ public class Ent_Rocket extends Ent {
 		g.fillRect(x,y,w,h);
 
 	}
+
 
 }
