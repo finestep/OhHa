@@ -75,9 +75,10 @@ public class Gun_Rocketlaser extends Ent_Gun {
 		int h = (int)(size.y)*2;
 		g.fillRect(x,y,w,h);
 
-		//hud drawing todo move gun hud elsewhere?
+		//hud drawing todo move hud drawing elsewhere?
 		g.setColor(Color.BLACK);
-		y = (int)(y-parent.size().y-3);
+		y -= 4;
+		x+=(!parent.side)?size.x:0;
 		w = (int)(size.x*(refire/rate));
 		g.drawLine(x,y,x+w,y);
 		y-=2;

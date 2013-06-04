@@ -39,8 +39,8 @@ public class Ent_Rocket extends Ent implements IHurtable {
 		damage=dam;
 		radius=r;
 		mass=m;
-		colltype=COLL_WRLD|COLL_PLR|COLL_ENM;
-		collclass=COLL_NONE;
+		colltype=COLL_WRLD|COLL_PRJ;
+		collclass=COLL_PLR|COLL_ENM;
 		lifetime=5;
 		health=7;
 	}
@@ -77,11 +77,11 @@ public class Ent_Rocket extends Ent implements IHurtable {
 			double dist = d.length();
 			if(dist>radius) continue;
 			if(e.mass()>0) {
-				e.vel._add(d.mul(Math.pow(dist,-2)*push*40/e.mass));
-				e.vel.y=-Math.abs(e.vel.y)-push*.2;
+				e.vel._add(d.mul(Math.pow(dist,-2)*push*60/e.mass));
+				e.vel.y-=push*.2;
 			}
 			if(e instanceof IHurtable) {
-				double dmg = Math.max(5,dist / radius * damage );
+				double dmg = Math.max(5,(radius-dist) / radius * damage );
 				((IHurtable) e).setHealth(((IHurtable) e).getHealth() - dmg);
 			}
 		}

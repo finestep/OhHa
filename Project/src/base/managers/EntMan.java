@@ -66,8 +66,9 @@ public class EntMan {
 
 		while(iter.hasNext()) {
 			Ent b = iter.next();
-			if(b.id==e.id || ( b.colltype()&e.collclass() )==0
-				||e.vel.unit().dot(b.pos.sub(e.pos).unit())<-.1) continue;
+			int mask=~1;
+			if(b.id==e.id || ( b.colltype()&mask&(e.collclass()&mask) )==0  ) continue;
+			//	||e.vel.unit().dot(b.pos.sub(e.pos).unit())<-.1) continue;
 			Vec2D d = Collision.CollAABB(e.pos,b.pos,e.size(),b.size());
 			if(d.length()>0) {
 				CollEvent ev1=new CollEvent(b.id,b,e.pos,b.pos,e.vel,b.vel,d.mul(-.5));

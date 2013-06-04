@@ -47,14 +47,14 @@ public class Game {
 		double accum=0;
 		double dt = 1/TICKS_PER_SECOND;
 		double ft = 1/FRAMES_PER_SECOND;
-		start=System.currentTimeMillis();
+		start=System.nanoTime()/1000000;
 		long startframe;
 		long endframe=(long) (start-ft*1000);
 		long sleeptime;
 		int n=0;
 		double prevn=0;
 		while ( !exit ) { //perhaps instead have run() simulate a single tick?
-			startframe=System.currentTimeMillis();
+			startframe=System.nanoTime()/1000000;
 			sleeptime=startframe-endframe;
 			accum+=sleeptime;
 			n=0;
@@ -74,7 +74,7 @@ public class Game {
 			DRAWMAN.text_hook(txt);
 			DRAWMAN.sync();
 			prevn=n*1000./sleeptime*.2+prevn*.8;
-			endframe=System.currentTimeMillis();
+			endframe=System.nanoTime()/1000000;
 			long sleep = (long)Math.floor(ft * 1000)-(startframe-endframe); //constant fps
 			int sleep2 = (int) ((ft-Math.floor(ft*1000)/1000)*1000000);
 			Thread.sleep(sleep,sleep2);

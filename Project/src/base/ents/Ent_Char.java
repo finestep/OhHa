@@ -16,7 +16,7 @@ public class Ent_Char extends Ent implements IHurtable {
 	private double maxVel=400,runPower,jumpPower;
 	boolean grounded=false;
 	public final CharTypeEnum type;
-	double fric = Math.pow(0.2,1/Game.TICKS_PER_SECOND); //todo move to EnvironmentHook
+	double fric = Math.pow(0.2,1/Game.TICKS_PER_SECOND);
 
 	public double getHealth() {
 		return health;
@@ -46,23 +46,24 @@ public class Ent_Char extends Ent implements IHurtable {
 	@Override
 	public boolean update(double dt) {
 		super.update(dt);
-		if(grounded) vel.x*= fric;
+		if(grounded) vel.x*= fric; //todo move to EnvironmentHook
 
 		if(vel.y<0) grounded=false;
 
 		vel.x+=Math.min(1,Math.max(-1,brain.movement()))*runPower*dt*(grounded?1:0);
 		vel.y-=Math.abs(Math.min(1,Math.max(0,brain.jump()))*jumpPower)*(grounded?1:0); //how much should the character jump? only jump upwards, when on the ground
 
-		if(brain.fireWeapon(weapon)) weapon.fire();
-		if(brain.fire2Weapon(weapon)) weapon.fire2();
+		if(weapon!=null) {
+			if(brain.fireWeapon(weapon)) weapon.fire();
+			if(brain.fire2Weapon(weapon)) weapon.fire2();
+			weapon.update(dt);
+		}
 
 		side = vel.x<0; //todo ask the brain where to face
 
 		try {
 		if(vel.length()>maxVel) vel=vel.unit().mul(maxVel);
 		} catch (Exception e) {} //cannot happen when maxVel > 0 todo assert all max*'s are positive
-
-		if(weapon!=null) weapon.update(dt);
 
 		if(health<0) {
 			if(weapon!=null) weapon.remove();
@@ -111,7 +112,7 @@ public class Ent_Char extends Ent implements IHurtable {
 
 		g.fillRect(x,y,w,h);
 		if(grounded) {
-			g.setColor(Color.CYAN);
+			g.setColor(Color.RED);
 			g.drawLine(x,y+h,x+w,y+h);
 		}
 		if(weapon!=null) weapon.draw(g,cam,res);
