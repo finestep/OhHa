@@ -9,6 +9,8 @@ import base.managers.InputMan;
 import base.managers.ConfigMan;
 import util.Vec2D;
 
+import java.util.Random;
+
 /**
  * High-level game logic routine, container for global manager references
  */
@@ -19,9 +21,13 @@ public class Game {
 	public static final InputMan INPUTMAN=new InputMan();
 	public static final DrawMan DRAWMAN=new DrawMan();
 
+	public static Random RAND = new Random(2);
+
 	public static final ConfigMan CONFIGMAN=new ConfigMan();
-	private static IWorldTopology WORLD;
-	public static IWorldTopology WORLD() { return WORLD; }
+	private static IWorldTopology world;
+	public static IWorldTopology WORLD() {
+		return world;
+	}
 	public static final double TICKS_PER_SECOND=120;
 	public static final double FRAMES_PER_SECOND=60;
 	public static final String TITLE = "TBA";
@@ -32,7 +38,7 @@ public class Game {
 
 	public Game(boolean plr) {
 		CONFIGMAN.init();
-		WORLD = new World();
+		world = new World();
 		INPUTMAN.init();
 		DRAWMAN.init();
 		if(!plr) return;

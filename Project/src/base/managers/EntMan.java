@@ -37,7 +37,7 @@ public class EntMan {
 		while(iter.hasNext()) {
 			Ent e = iter.next();
 			Game.WORLD().environmentHook(e,dt); //gravity et al happens here
-			int coll = e.colltype();
+			int coll = e.getColltype();
 			if(coll!=Ent.COLL_NONE) {   //collides with anything in the first place?
 				if((coll&Ent.COLL_WRLD)!=0) {  //check collision with world?
 					collideWorld(e);
@@ -54,7 +54,7 @@ public class EntMan {
 
 	private void collideWorld(Ent e) { //check the entity's collision against the world geometry
 		Vec2D[] worldBox=Game.WORLD().getClosestAABB(e.pos);
-		Vec2D d = Collision.CollAABB(e.pos,worldBox[0],e.size(),worldBox[1]);
+		Vec2D d = Collision.CollAABB(e.pos,worldBox[0],e.getSize(),worldBox[1]);
 		if(d.length()>0) {
 			CollEvent ev=new CollEvent(Ent.ENT_WORLD,null,e.pos,worldBox[0],e.vel,new Vec2D(),d);
 			e.collided(ev);
@@ -67,14 +67,12 @@ public class EntMan {
 		while(iter.hasNext()) {
 			Ent b = iter.next();
 			int mask=~1;
-			if(b.id==e.id || ( b.colltype()&mask&(e.collclass()&mask) )==0  ) continue;
+			if(b.id==e.id || ( b.getColltype()&mask&(e.getCollclass()&mask) )==0  ) continue;
 			//	||e.vel.unit().dot(b.pos.sub(e.pos).unit())<-.1) continue;
-			Vec2D d = Collision.CollAABB(e.pos,b.pos,e.size(),b.size());
+			Vec2D d = Collision.CollAABB(e.pos,b.pos,e.getSize(),b.getSize());
 			if(d.length()>0) {
-				CollEvent ev1=new CollEvent(b.id,b,e.pos,b.pos,e.vel,b.vel,d.mul(-.5));
-				CollEvent ev2=new CollEvent(e.id,e,b.pos,e.pos,b.vel,e.vel,d.mul(.5));
-				e.collided(ev1);
-				b.collided(ev2);
+				CollEvent ev=new CollEvent(b.id,b,e.pos,b.pos,e.vel,b.vel,d.mul(-1));
+				e.collided(ev);
 			}
 		}
 	}

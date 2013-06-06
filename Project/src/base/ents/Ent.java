@@ -23,16 +23,24 @@ public abstract class Ent implements IRenderable {
 
 	private static int _COUNT=0;
 	public final int id;
-	protected int colltype;
-	public int colltype() { return colltype; } //what entities does the entity hit
-	protected int collclass;
-	public int collclass() { return collclass; } //what entities does the entity get hit by
+	protected int colltype;   //what entities does the entity hit
+	public int getColltype() {
+		return colltype;
+	}
+	protected int collclass;  //what entities does the entity get hit by
+	public int getCollclass() {
+		return collclass;
+	}
 	protected Vec2D size;
 	protected double mass;
-	public double mass() {return mass; }
+	public double getMass() {
+		return mass;
+	}
 	protected ArrayDeque<CollEvent> collisions = new ArrayDeque();
-	HashSet<Integer> ignore=new HashSet();
-	public Vec2D size() { return size; }
+	private HashSet<Integer> ignore=new HashSet();
+	public Vec2D getSize() {
+		return size;
+	}
 	public Vec2D pos,vel;
 
 	/**

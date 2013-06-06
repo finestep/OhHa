@@ -6,7 +6,6 @@ import util.Vec2D;
 
 import java.awt.*;
 import java.util.Iterator;
-import java.util.HashSet;
 
 /**
  * It's a rocket.
@@ -76,7 +75,7 @@ public class Ent_Rocket extends Ent implements IHurtable {
 			Vec2D d = e.pos.add(pos.neg());
 			double dist = d.length();
 			if(dist>radius) continue;
-			if(e.mass()>0) {
+			if(e.getMass()>0) {
 				e.vel._add(d.mul(Math.pow(dist,-2)*push*60/e.mass));
 				e.vel.y-=push*.2;
 			}
