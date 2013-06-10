@@ -37,7 +37,7 @@ public abstract class Ent implements IRenderable {
 		return mass;
 	}
 	protected ArrayDeque<CollEvent> collisions = new ArrayDeque();
-	private HashSet<Integer> ignore=new HashSet();
+	protected HashSet<Integer> ignore=new HashSet();
 	public Vec2D getSize() {
 		return size;
 	}
