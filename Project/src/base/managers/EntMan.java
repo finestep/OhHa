@@ -37,18 +37,22 @@ public class EntMan {
 		while(iter.hasNext()) {
 			Ent e = iter.next();
 			Game.WORLD().environmentHook(e,dt); //gravity et al happens here
-			int coll = e.getColltype();
-			if(coll!=Ent.COLL_NONE) {   //collides with anything in the first place?
-				if((coll&Ent.COLL_WRLD)!=0) {  //check collision with world?
-					collideWorld(e);
-				}
-				entColls(e);  //check for collisions with the rest of the ents
-			}
+
 
 			if(e.update(dt)) {
 				iter.remove();
 				System.out.println("Removed "+e);
-			}
+			}  else {
+
+                int coll = e.getColltype();
+                if(coll!=Ent.COLL_NONE) {   //collides with anything in the first place?                                       yeah
+                    if((coll&Ent.COLL_WRLD)!=0) {  //check collision with world?
+                        collideWorld(e);
+                    }
+                    entColls(e);  //check for collisions with the rest of the ents
+                }
+
+            }
 		}
 	}
 
