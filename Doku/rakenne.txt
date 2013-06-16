@@ -1,0 +1,6 @@
+Koodissa k‰ytet‰‰n silmitt‰ hyv‰ksi staattisia m‰‰reit‰.
+
+Ytimen muodostaa STATEMAN - ENTMAN - DRAWMAN managerikolmikko, jotka hallitsevat,p‰ivitt‰v‰t ja piirt‰v‰t pelioilioita.
+Peliolioiden pohjaluokkana on Ent-luokka, joka m‰‰rittelee perus liikkumis- ja tˆrm‰‰mistoiminnallisuuden jota muut oliot t‰ydent‰v‰t perim‰ll‰.
+
+Rakketti- ja hahmoluokat erikoistetaan Enum-tyypityksen ja oliotehtaiden avulla.
