@@ -7,12 +7,11 @@ import static base.ControlEnum.*;
  * Reads input from INPUTMAN and moves the player
  */
 public class InputSampler implements ICharBrain {
-
 	@Override
 	public double movement() {
 		double x=0;
-		if(Game.INPUTMAN.get(CTRL_LEFT)) x-=.66;
-		if(Game.INPUTMAN.get(CTRL_RIGHT)) x+=.66;
+		if(Game.INPUTMAN.get(CTRL_LEFT)) x-=1;
+		if(Game.INPUTMAN.get(CTRL_RIGHT)) x+=1;
 		return x;
 	}
 

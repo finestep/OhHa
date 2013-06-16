@@ -11,9 +11,10 @@ import java.awt.*;
 public class Gun_Rocketlaser extends Ent_Gun {
 	private static int  maxAmmo=3;
 	private int ammo=maxAmmo;
-	private static double reload=750,rate=200;
+	private static double reload=900,rate=350;
 	private double refire=0,idle=0;
 	private static Vec2D vertboost = new Vec2D(0,-15);
+    private boolean lasered=false;
 
 	public Gun_Rocketlaser(Ent_Char p) {
 		super(p);
@@ -26,7 +27,7 @@ public class Gun_Rocketlaser extends Ent_Gun {
 
 	@Override
 	public boolean fire() {
-		if(ammo<=0||refire>0) return false;
+		if(ammo<=0||refire>0||lasered) return false;
 		refire=rate;
 		idle=0;
 		ammo--;
@@ -40,8 +41,14 @@ public class Gun_Rocketlaser extends Ent_Gun {
 
 	@Override
 	public boolean fire2() {
-		//todo start laser firing
-		return false;
+        if(ammo<2||refire>0||lasered) return false;
+        refire=rate;
+        idle=0;
+        ammo-=2;
+        lasered=true;
+		Ent laser = new Ent_Laser(pos.clone(),parent.side);
+        Game.STATEMAN.add_ent(laser);
+		return true;
 	}
 
 	@Override
@@ -58,17 +65,18 @@ public class Gun_Rocketlaser extends Ent_Gun {
 			ammo++;
 			idle=0;
 		}
+        if(ammo==maxAmmo) lasered=false;
 		return super.update(dt);
 	}
 
 	@Override
 	public int getAmmo() {
-		if(refire>0) return 0;
+		if(refire>0||lasered) return 0;
 		return ammo;
 	}
 
 	public void draw(Graphics2D g, Vec2D cam, Dimension res) {
-		g.setColor(Color.RED);
+		g.setColor(Color.GRAY);
 		int x = (int)Math.round(pos.x+cam.x-size.x);
 		int y = (int)Math.round(pos.y+cam.y-size.y);
 		int w = (int)(size.x)*2;
@@ -83,6 +91,7 @@ public class Gun_Rocketlaser extends Ent_Gun {
 		g.drawLine(x,y,x+w,y);
 		y-=2;
 		g.setColor(Color.BLUE);
+        if(lasered) g.setColor(Color.RED);
 		w = (int)(size.x*((double)ammo/maxAmmo));
 		g.drawLine(x,y,x+w,y);
 		g.setColor(Color.ORANGE);

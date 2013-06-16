@@ -1,10 +1,18 @@
-Aiheena jonkinlainen tasohyppelypeli.
+﻿Aiheena jonkinlainen tasohyppelypeli.
 Pelimaailmana on (lähes)itsesimilaari pseudorandomi fraktaali.
 Pelaajan hahmoa liikutetaan näppäimistöllä (ohjaintuki?)
 Kuoppaan hypätessä karttaa skaalataan isommaksi ja sille lasketaan lisää sisältöä.
 Vihollisten vaikeusaste voisi skaalautua syvyyden mukaan.
 Jonkinlainen kartta joka pitää lukua missäpäin maailmaa liikutaan saattaa olla hyödyllinen.
 Pelin päämäärä vielä auki. Pistegrindaus / survival?
+
+
+//5min ennen deadlinea:
+Projekti meni plörinäksi, noin kaksi viikkoa työaikaa meni pois muun elämän takia, jäljellä nyt on jonkin lainen... juttu.
+Olisi kiva ollut saada edes jotakin säällistä aikaan...
+
+
+
 
 Jos aika antaa myöten:
 -Tappelupelityylinen systeemi jossa pelaajan hyökkäykset liikuttavat vihollisia ja hyökkäyksiä voi ketjuttaa

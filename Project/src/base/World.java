@@ -21,8 +21,9 @@ public class World implements IWorldTopology {
 	}
 
 	@Override
-	public void environmentHook(Ent e,double dt) {
+	public boolean environmentHook(Ent e,double dt) {
 		e.vel._add(globalAcc.mul(dt));
+        return e.pos.y>64;
 	}
 
 	@Override

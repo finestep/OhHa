@@ -36,21 +36,16 @@ public class EntMan {
 
 		while(iter.hasNext()) {
 			Ent e = iter.next();
-			Game.WORLD().environmentHook(e,dt); //gravity et al happens here
-
-
-			if(e.update(dt)) {
+			 //gravity et al happens here
+			if(Game.WORLD().environmentHook(e,dt) || e.update(dt)) {
 				iter.remove();
 				System.out.println("Removed "+e);
 			}  else {
 
-                int coll = e.getColltype();
-                if(coll!=Ent.COLL_NONE) {   //collides with anything in the first place?                                       yeah
-                    if((coll&Ent.COLL_WRLD)!=0) {  //check collision with world?
-                        collideWorld(e);
-                    }
-                    entColls(e);  //check for collisions with the rest of the ents
-                }
+            if((e.getColltype()&Ent.COLL_WRLD)!=0) {  //check collision with world?
+                collideWorld(e);
+            }
+            entColls(e);  //check for collisions with the rest of the ents
 
             }
 		}
@@ -71,7 +66,7 @@ public class EntMan {
 		while(iter.hasNext()) {
 			Ent b = iter.next();
 			int mask=~1;
-			if(b.id==e.id || ( b.getColltype()&mask&(e.getCollclass()&mask) )==0  ) continue;
+			if(b.id==e.id || ( e.getCollclass()&mask&(b.getColltype()&mask) )==0  ) continue;
 			//	||e.vel.unit().dot(b.pos.sub(e.pos).unit())<-.1) continue;
 			Vec2D d = Collision.CollAABB(e.pos,b.pos,e.getSize(),b.getSize());
 			if(d.length()>0) {

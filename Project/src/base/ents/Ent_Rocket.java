@@ -40,7 +40,7 @@ public class Ent_Rocket extends Ent implements IHurtable {
 		mass=m;
 		colltype=COLL_WRLD|COLL_PRJ;
 		collclass=COLL_PLR|COLL_ENM;
-		lifetime=5;
+		lifetime=3;
 		health=7;
 	}
 
@@ -49,6 +49,10 @@ public class Ent_Rocket extends Ent implements IHurtable {
 		vel.y-=lift*Math.sqrt(Math.abs(vel.x))*dt;   //todo make perpendicular to vel direction
 		vel.x+=(dir?-1:1)*accel*dt;
 		lifetime-=dt;
+          if(Game.RAND.nextDouble()<0.07) {
+            Ent e = new Ent_Explosion(pos.clone(),4,0.5+Game.RAND.nextDouble());
+            Game.STATEMAN.add_ent(e);
+        }
 		super.update(dt);
 		if(lifetime<0||health<0) explode();
 		return exploded;
@@ -69,6 +73,8 @@ public class Ent_Rocket extends Ent implements IHurtable {
 	private void explode() {
 		exploded=true;
 		Iterator<Ent> iter = Game.STATEMAN.getEntIter();
+        Ent expl = new Ent_Explosion(pos.clone(),radius*.8,0.2);
+        Game.STATEMAN.add_ent(expl);
 		while(iter.hasNext()) {
 			Ent e = iter.next();
 			if(e.id==id) continue;

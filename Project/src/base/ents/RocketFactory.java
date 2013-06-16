@@ -15,6 +15,13 @@ public class RocketFactory {
 		r.ignore(id);
 	}
 
+    /**
+     * Creates a rocket
+     * @param p position
+     * @param v velocity
+     * @param launcher character the rocket is attributed to
+     * @return the rocket created
+     */
 	static public Ent create_fragrocket(Vec2D p,Vec2D v,Ent_Char launcher) {
 		Ent_Rocket r = new Ent_Rocket(ROCKET_FRAG,new Vec2D(4,2),150,100,30,100,0.3);
 		launcher.ignore(r.id);
@@ -22,7 +29,7 @@ public class RocketFactory {
 		return r;
 	}
 	static public Ent create_herocket(Vec2D p,Vec2D v,Ent_Char launcher) {
-		Ent_Rocket r = new Ent_Rocket(ROCKET_HE,new  Vec2D(5,3),210,80,250,70,0.5);
+		Ent_Rocket r = new Ent_Rocket(ROCKET_HE,new  Vec2D(5,3),210,80,50,70,0.5);
 		launcher.ignore(r.id);
 		init_rocket(r,p,v,launcher.id);
 		return r;

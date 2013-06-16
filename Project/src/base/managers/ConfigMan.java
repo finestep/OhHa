@@ -24,6 +24,11 @@ public class ConfigMan {
 	}
 	//todo loadsave ini
 
+    /**
+     * Translates a key code to a control code
+     * @param key
+     * @return
+     */
 	public ControlEnum keyToCtrl(int key) {
    		if(!keys.containsKey(key)) return ControlEnum.CTRL_NONE;
 		return keys.get(key);

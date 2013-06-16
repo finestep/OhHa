@@ -14,7 +14,7 @@ import java.util.ArrayList;
 public class FracWorld implements IWorldTopology {
 
 	private ArrayList<Integer> playerPath = new ArrayList();
-	private Vec2D globalacc = new Vec2D(0,-100);
+	private Vec2D globalacc = new Vec2D(0,100);
 	private FracBranch base = new FracBranch(0,4096,0,0);
 
 
@@ -38,6 +38,7 @@ public class FracWorld implements IWorldTopology {
 			}
 
 		}
+        System.out.println("found  branch id "+id);
 		return id;
 	}
 
@@ -47,24 +48,31 @@ public class FracWorld implements IWorldTopology {
 	}
 
 	@Override
-	public void environmentHook(Ent e,double dt) {
+	public boolean environmentHook(Ent e,double dt) {
 		e.vel._add(globalacc.mul(dt));
-		if(e.id==Game.ENTMAN.PLAYER().id) {
-			if(depth(e.pos.y)>playerPath.size()) { //player jumped down
-				playerPath.add(branchID(e.pos.x,playerPath.size()));
-			}
-		}
-
+		if(depth(e.pos.y)>playerPath.size()) {
+			if(e.id==Game.ENTMAN.PLAYER().id) { //player jumped down
+                int id = branchID(e.pos.x,playerPath.size());
+				playerPath.add(id);
+                FracBranch newBranch = currentBranch.getBranch(id);
+                currentBranch=newBranch;
+                newBranch.init();
+                if(e.vel.x>0) e.pos=new Vec2D(newBranch.origin,100*playerPath.size()-50);
+			} else {
+              return true;
+            }
+        }
+        return false;
 	}
 
 	@Override
 	public Vec2D[] getClosestAABB(Vec2D pos) {
-		return null; //todo traverse world tree
+		return currentBranch.getBox(pos);
 	}
 
 	@Override
 	public void draw(Graphics2D g,Vec2D campos, Dimension res) {
-		//todo fracworld drawing
+		currentBranch.draw(g,campos,res);
 	}
 
 }

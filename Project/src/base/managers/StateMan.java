@@ -13,16 +13,27 @@ public class StateMan {
 	private List<Ent> ents = new LinkedList<Ent>();
 	private List<Ent> toAdd = new LinkedList<Ent>();
 
+    /**
+     * Schedules an entity to be added to gamestate
+     * @param e The entity
+     */
 	public void add_ent(Ent e) {
 		toAdd.add(e);
 		System.out.println("New entity scheduled "+e);
 	}
 
+    /**
+     * Adds the scheduled entities
+     */
 	public void updateList() {
 		ents.addAll(toAdd);
 		toAdd.clear();
 	}
 
+    /**
+     * Gets an iterator of the entity list
+     * @return  the iterator
+     */
 	public Iterator<Ent> getEntIter() {
 		return ents.iterator();
 	}
@@ -45,6 +56,9 @@ public class StateMan {
 		return false;
 	}
 
+    /**
+     * Clears the entity list
+     */
 	public void delAll() {
 		ents.clear();
 		System.out.println("Cleared entities");

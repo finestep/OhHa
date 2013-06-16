@@ -20,7 +20,7 @@ public class DrawMan {
 
 	private Color alphawhite=new Color(255,255,255,140);
 
-	public static final Dimension RES = new Dimension(640,480);
+	public final Dimension RES = new Dimension(640,480);
 	public void init() {
 		f=new Frame(Game.TITLE);
 		f.setResizable(false);

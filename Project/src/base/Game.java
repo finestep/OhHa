@@ -21,7 +21,7 @@ public class Game {
 	public static final InputMan INPUTMAN=new InputMan();
 	public static final DrawMan DRAWMAN=new DrawMan();
 
-	public static Random RAND = new Random(2);
+	public static Random RAND = new Random(3);
 
 	public static final ConfigMan CONFIGMAN=new ConfigMan();
 	private static IWorldTopology world;
@@ -32,23 +32,31 @@ public class Game {
 	public static final double FRAMES_PER_SECOND=60;
 	public static final String TITLE = "TBA";
 	private static boolean exit=false;
+    public static boolean ents;
+    private static boolean reset=false;
 
 	private long start;
 	private String[] txt = {null,null,null};
 
 	public Game(boolean plr) {
-		CONFIGMAN.init();
-		world = new World();
-		INPUTMAN.init();
-		DRAWMAN.init();
-		if(!plr) return;
-		Ent player = CharFactory.make_player(new Vec2D(0,-50));
-		STATEMAN.add_ent(player);
-		ENTMAN.setPlayer(player);
+        CONFIGMAN.init();
+        INPUTMAN.init();
+        DRAWMAN.init();
+        ents=plr;
+        start();
 
-		STATEMAN.add_ent(CharFactory.make_dummy(new Vec2D(150,-50)));
+		//STATEMAN.add_ent(CharFactory.make_enemy(new Vec2D(450,-50)));
 
 	}
+    private void start() {
+;
+        world = new PlatformWorld();
+        if(!ents) return;
+
+        Ent player = CharFactory.make_player(new Vec2D(0,-50));
+        STATEMAN.add_ent(player);
+        ENTMAN.setPlayer(player);
+    }
 	public void run() throws Exception {
 		double accum=0;
 		double dt = 1/TICKS_PER_SECOND;
@@ -67,7 +75,13 @@ public class Game {
 			while(accum>dt*1000) { //renderer gave us some time, eat it
 				ENTMAN.update(dt);
 				STATEMAN.updateList();
-				//todo add rules class that determines if game should end
+				if(reset) {
+                    STATEMAN.delAll();
+                    ENTMAN.setPlayer(null);
+                    start();
+                    reset=false;
+                    break;
+                }
 				accum-=dt*1000; //can modify timescale here
 				n++;
 			}
@@ -87,6 +101,11 @@ public class Game {
 		}
 
 	}
+
+    public static void restart() {
+        reset=true;
+    }
+
 	public static void quit() { //todo find out a proper way to do this
 		System.out.println("Exitting");
 		STATEMAN.delAll();

@@ -14,5 +14,12 @@ public interface IWorldTopology extends IRenderable {
 	 */
 	public Vec2D[] getClosestAABB(Vec2D pos);
 	//implement IRenderable so that it is easy to tell what is solid
-	public void environmentHook(Ent e, double dt); //called every tick for every entity. Implement eg. gravity here.
+
+    /**
+     * Called every tick on every entity. Implement eg. gravity here
+     * @param e Entity in question
+     * @param dt Simulation delta
+     * @return Boolean true if entity should be removed
+     */
+	public boolean environmentHook(Ent e, double dt);
 }

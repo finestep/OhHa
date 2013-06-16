@@ -16,7 +16,7 @@ public class Ent_Char extends Ent implements IHurtable {
 	private double maxVel=400,runPower,jumpPower;
 	boolean grounded=false;
 	public final CharTypeEnum type;
-	double fric = Math.pow(0.2,1/Game.TICKS_PER_SECOND);
+	double fric = Math.pow(0.1,1/Game.TICKS_PER_SECOND);
 
 	public double getHealth() {
 		return health;
@@ -24,21 +24,23 @@ public class Ent_Char extends Ent implements IHurtable {
 
 	public void setHealth(double health) {
 		this.health = health;
+        if(this.health>maxHealth) this.health=maxHealth;
 	}
 
-	private double health;
+	protected double health,maxHealth=100;
 	protected Ent_Gun weapon=null;
 	boolean side; //true if the character is facing left
 
-	public Ent_Char(CharTypeEnum t,ICharBrain b,
-					Vec2D s,double m,int ct,int cc,
-					double r,double j,double h) {
-		super(s,m,cc,ct);
-		type = t;
-		brain=b;
-		runPower=r;
-		jumpPower=j;
-		health=h;
+	public Ent_Char(CharTypeEnum type,ICharBrain brain,
+					Vec2D size,double mass,int ct,int cc,
+					double runPower,double jumpPower,double h) {
+		super(size,mass,cc,ct);
+		this.type = type;
+        this.brain=brain;
+        this.runPower=runPower;
+        this.jumpPower=jumpPower;
+		maxHealth=h;
+        health=h;
 		vel=new Vec2D();
 		side=false;
 	}
@@ -47,8 +49,6 @@ public class Ent_Char extends Ent implements IHurtable {
 	public boolean update(double dt) {
 		super.update(dt);
 		if(grounded) vel.x*= fric; //todo move to EnvironmentHook
-
-		if(vel.y<0) grounded=false;
 
 		vel.x+=Math.min(1,Math.max(-1,brain.movement()))*runPower*dt*(grounded?1:0);
 		vel.y-=Math.abs(Math.min(1,Math.max(0,brain.jump()))*jumpPower)*(grounded?1:0); //how much should the character jump? only jump upwards, when on the ground
@@ -75,26 +75,23 @@ public class Ent_Char extends Ent implements IHurtable {
 	@Override
 	public void handleCollisions() {
 		Iterator<CollEvent> iter = collisions.iterator();
+        grounded=false;
 		while(iter.hasNext()) {
 			CollEvent ev = iter.next();
 			pos._add(ev.d);
-			if(ev.e==null) {
-				if(Math.abs(ev.d.x)<0.001) {
-					vel.y=0;
+			if(ev.id==ENT_WORLD) {
+				if(Math.abs(ev.d.x)<0.0001) {
 					if(!grounded) {
-						vel.x*=.5;
-						if(Math.abs(vel.y)<0.1) vel.y=0;
+						vel.y=0;
 						grounded=true;
 						//System.out.println("Grounded");
 					}
 				} else {
 					vel.x*=-.1;
-					vel.y*=.5;
 				}
 			} else {
 
-					vel._add( ev.d.unit().mul( vel.dot( ev.d.unit() )/mass*-1.5 ));
-				if(grounded) vel.x=0;
+				vel._add( ev.d.unit().mul( vel.dot( ev.d.unit() )/mass*-1.5 ));
 				//todo assert that all entities' masses are positive
 			}
 			iter.remove();
@@ -115,6 +112,14 @@ public class Ent_Char extends Ent implements IHurtable {
 			g.setColor(Color.RED);
 			g.drawLine(x,y+h,x+w,y+h);
 		}
+        g.setColor(Color.GREEN);
+        y-=size.y*1.1;
+        w*=health/maxHealth;
+        g.drawLine(x,y,x+w,y);
+        x+=w;
+        w=(int) (size.x*2*(maxHealth-health)/maxHealth);
+        g.setColor(Color.GREEN.darker());
+        g.drawLine(x,y,x+w,y);
 		if(weapon!=null) weapon.draw(g,cam,res);
 	}
 
